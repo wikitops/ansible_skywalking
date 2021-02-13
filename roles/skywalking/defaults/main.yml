@@ -1,0 +1,11 @@
+---
+
+# Versions
+skywalking_version: "8.4.0"
+
+# Elasticsearch
+skywalking_elastic_image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+skywalking_elastic_version: "7.10.2"
+
+# Elasticsearch storage class
+skywalking_elastic_storage_class: "elasticsearch"

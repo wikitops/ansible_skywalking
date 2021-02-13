@@ -1,0 +1,28 @@
+---
+
+- name: SKYWALKING ELASTIC | Create a volume
+  containers.podman.podman_volume:
+    state: present
+    name: es-skywalking-vol
+    label:
+      owner: elastic
+      app: skywalking
+    options:
+      - "o=uid=1000,gid=0"
+      - "device=tmpfs"
+      - "type=tmpfs"
+
+- name: SKYWALKING ELASTIC | Start a standalone server in the pod
+  containers.podman.podman_container:
+    name: elasticsearch
+    image: "{{ skywalking_elastic_image }}:{{ skywalking_elastic_version }}"
+    pod: skywalking
+    env:
+      node.name: "es-skywalking"
+      cluster.name: "CollectorDBCluster"
+      discovery.type: "single-node"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      thread_pool.write.queue_size: 1000
+    volume:
+      - es-skywalking-vol:/usr/share/elasticsearch/data

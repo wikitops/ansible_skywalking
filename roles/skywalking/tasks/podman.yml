@@ -1,0 +1,16 @@
+---
+
+- name: SKYWALKING PODMAN | Create a network
+  containers.podman.podman_network:
+    name: skywalking
+
+- name: SKYWALKING PODMAN | Create a pod
+  containers.podman.podman_pod:
+    name: skywalking
+    network: skywalking
+    state: started
+    ports:
+      - "8080:8080"
+      - "12800:12800"
+      - "9200:9200"
+      - "11800:11800"

@@ -1,6 +1,6 @@
 # Ansible : Playbook Skywalking
 
-The aim of this project is to deploy a standalone Skywalking server on a Linux Vagrant instance using Podman.
+The purpose of this project is to deploy a standalone Skywalking server on a Linux Vagrant instance using Podman and an Elasticsearch standalone server as a backend.
 
 ## Getting Started
 

@@ -1,0 +1,31 @@
+---
+
+- name: SKYWALKING | Create directories
+  file:
+    name: /opt/skywalking/
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: SKYWALKING | Set Elasticsearch storage class
+  set_fact:
+    skywalking_elastic_storage_class: "elasticsearch{{ skywalking_elastic_version.split('.')[0] }}"
+  when: skywalking_elastic_version.split('.')[0] == '7'
+
+- name: SKYWALKING | Start OPA Server container in the pod
+  containers.podman.podman_container:
+    name: skywalking-oap-server
+    image: apache/skywalking-oap-server:{{ skywalking_version }}-es{{ skywalking_elastic_version.split('.')[0] }}
+    pod: skywalking
+    env:
+      SW_STORAGE: "{{ skywalking_elastic_storage_class }}"
+      SW_STORAGE_ES_CLUSTER_NODES: "127.0.0.1:9200"
+
+- name: SKYWALKING | Start UI container in the pod
+  containers.podman.podman_container:
+    name: skywalking-ui
+    image: apache/skywalking-ui:{{ skywalking_version }}
+    env:
+      SW_OAP_ADDRESS: "127.0.0.1:12800"
+    pod: skywalking
