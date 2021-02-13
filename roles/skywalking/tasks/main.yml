@@ -1,0 +1,28 @@
+---
+
+- name: SKYWALKING | Create a network
+  containers.podman.podman_network:
+    name: skywalking
+
+- name: SKYWALKING | Create a pod
+  containers.podman.podman_pod:
+    name: skywalking
+    network: skywalking
+    state: started
+    ports:
+      - "8080:8080"
+      - "12800:12800"
+
+- name: SKYWALKING | Start OPA Server container in the pod
+  containers.podman.podman_container:
+    name: skywalking-oap-server
+    image: apache/skywalking-oap-server
+    pod: skywalking
+
+- name: SKYWALKING | Start UI container in the pod
+  containers.podman.podman_container:
+    name: skywalking-ui
+    image: apache/skywalking-ui
+    env:
+      SW_OAP_ADDRESS: "127.0.0.1:12800"
+    pod: skywalking
