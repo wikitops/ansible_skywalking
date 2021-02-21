@@ -53,7 +53,7 @@ Current machine states:
 skywalking01                   running (virtualbox)
 ```
 
-If everything run as expected, you should be able to reach the Skywalking web interface : http://skywalking:8080/
+If everything run as expected, you should be able to reach the Skywalking web interface : http://skywalking01:8080/
 
 #### Destroy
 
